@@ -1,7 +1,8 @@
 <?php
 
-require_once './youtube_apis/search_youtube.php';
-require_once './music/tweetHandler.php';
+$dir=dirname(__FILE__);//現在のディレクトリを取得
+require_once("$dir/youtube_apis/search_youtube.php");
+require_once("$dir/music/tweetHandler.php");
 
 # メンションを拾う
 $th = new tweetHandler();
