@@ -1,9 +1,10 @@
 <?php
 //require_once('/var/www/html/google-api-php-client/vendor/autoload.php');
 //require_once('/var/www/html/config_youtube.php');
-require_once '/Users/yackman/dev/musicBot/youtube_apis/google-api-php-client/vendor/autoload.php';
+$dir = dirname(__FILE__);
+require_once("$dir/google-api-php-client/vendor/autoload.php");
 
-require_once '/Users/yackman/dev/musicBot/youtube_apis/config_youtube.php';
+require_once("$dir/config_youtube.php");
 
 // This code will execute if the user entered a search query in the form
 // and submitted the form. Otherwise, the page displays the form above.
