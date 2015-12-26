@@ -10,7 +10,7 @@ require_once("config.php");
 class tweetHandler{
 
   private $twObj;
-  private $mentionsArray;
+  public $mentionsArray;
 
   function __construct(){
     $consumerKey       = API_KEY;
@@ -22,23 +22,34 @@ class tweetHandler{
     $this->mentionsArray = array();
   }
 
+  //メンション取得のデバッグ表示
+  function displayMentions(){
+      var_dump($this->mentionsArray);
+  }
+
   //メンション取得
   function getMentions(){
 
-    $past_mentions = intval(file_get_contents('mentions_num.txt'));
+    $past_mentions = file_get_contents('mentions_num.txt');
 
     $jsonRes=$this->twObj->get("statuses/mentions_timeline", array("since_id" => $past_mentions));
 
     foreach ($jsonRes as $content){
 
-      preg_match("/(@.*)( )(.*)/",$content->text,$music_name);
-      echo $content->user->screen_name."\n";
-      if($music_name){
-          array_push($this->mentionsArray,$music_name[3]);
-      }
-    }
+        $tmpArray = array("screen_name"=>"","music_name"=>"","reply_id"=>"");
 
-    $this->changeMentionNum($past_mentions+1);
+        preg_match("/(@.*)( )(.*)/",$content->text,$music_name);
+
+        $tmpArray["screen_name"] = $content->user->screen_name;
+        $tmpArray["reply_id"] = $content->id;
+        $past_mentions = $content->id;
+        if($music_name){
+            $tmpArray["music_name"] = $music_name[3];
+            array_push($this->mentionsArray,$tmpArray);
+        }
+    }
+    echo "$past_mentions\n";
+    $this->changeMentionNum($past_mentions);
     return $this->mentionsArray;
   }
 
@@ -82,9 +93,9 @@ class tweetHandler{
   function post($mes,$rep_id,$screen_name){
       $jsonRes;
       //リプライ用IDとscreen_nameが存在する場合はメンションで返信する
-      if(!$rep_id and !$screen_name){
+      if(!empty($rep_id) and !empty($screen_name)){
 
-          $jsonRes=$this->twObj->post("statuses/update", array("status" => $screen_name." ".$mes, "in_reply_to_statu_id"=>$rep_id));
+          $jsonRes=$this->twObj->post("statuses/update", array("status" => "@".$screen_name." ".$mes, 'in_reply_to_status_id'=>(int)$rep_id));
       }else{
           $jsonRes=$this->twObj->post("statuses/update", array("status" => $mes));
       }
