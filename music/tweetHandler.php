@@ -4,7 +4,9 @@
 require "twitterOAuth/vendor/autoload.php";
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-require_once("config.php");
+
+$dir=dirname(__FILE__);
+require_once("$dir/config.php");
 
 //tweetHandlerクラス
 class tweetHandler{
