@@ -34,7 +34,7 @@ class tweetHandler{
       preg_match("/(@.*)( )(.*)/",$content->text,$music_name);
       echo $content->user->screen_name."\n";
       if($music_name){
-	array_push($this->mentionsArray,$music_name[3]);
+          array_push($this->mentionsArray,$music_name[3]);
       }
     }
 
@@ -46,7 +46,7 @@ class tweetHandler{
   {
 
     $fp = fopen('mentions_num.txt', 'w');
-    
+
     if ($fp){
       if (flock($fp, LOCK_EX)){
         fwrite($fp,$num);
@@ -64,18 +64,28 @@ class tweetHandler{
 
     $mention_num = 0;
     $fp = fopen('./debugLog.txt', 'r');
-    
+
     if ($fp){
       if (flock($fp, LOCK_EX)){
         fwrite($fp,$line."\n");
       }
-      
+
       flock($fp, LOCK_UN);
     }else{
       print('ファイルロックに失敗しました');
     }
 
     fclose($fp);
+  }
+
+  //postする機能
+  function post($mes,$rep_id,$screen_name){
+    //$jsonRes=$this->twObj->post("statuses/update", array("status" => $mes));
+    $rep_id = 679616523464355840;
+    $screen_name = '@yakk512';
+
+    $jsonRes=$this->twObj->post("statuses/update", array("status" => $screen_name." ".$mes, "in_reply_to_statu_id"=>$rep_id));
+    var_dump($jsonRes);
   }
 
   function getSearchArray()
