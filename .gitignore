@@ -2,3 +2,4 @@ config.php
 *~
 debug_tweetHandler.php
 mentions_num.txt
+./youtube_apis/config_youtube.php
