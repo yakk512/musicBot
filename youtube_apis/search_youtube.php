@@ -1,10 +1,9 @@
 <?php
-//require_once('/var/www/html/google-api-php-client/vendor/autoload.php');
-//require_once('/var/www/html/config_youtube.php');
-$dir = dirname(__FILE__);
-require_once("$dir/google-api-php-client/vendor/autoload.php");
 
-require_once("$dir/config_youtube.php");
+$dir = dirname(__FILE__);
+require_once "$dir/google-api-php-client/vendor/autoload.php";
+
+require_once "$dir/config_youtube.php";
 
 // This code will execute if the user entered a search query in the form
 // and submitted the form. Otherwise, the page displays the form above.
@@ -35,7 +34,7 @@ class searchMusic
 
       $searchResponse = $youtube->search->listSearch('id,snippet', array(
                                      'q' => $name,
-                                     'type'=>'video',
+                                     'type' => 'video',
                                      'videoCategoryId' => 10,
                                      'maxResults' => 1,
                                      ));
