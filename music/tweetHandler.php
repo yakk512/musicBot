@@ -80,12 +80,15 @@ class tweetHandler{
 
   //postする機能
   function post($mes,$rep_id,$screen_name){
-    //$jsonRes=$this->twObj->post("statuses/update", array("status" => $mes));
-    $rep_id = 679616523464355840;
-    $screen_name = '@yakk512';
+      $jsonRes;
+      //リプライ用IDとscreen_nameが存在する場合はメンションで返信する
+      if(!$rep_id and !$screen_name){
 
-    $jsonRes=$this->twObj->post("statuses/update", array("status" => $screen_name." ".$mes, "in_reply_to_statu_id"=>$rep_id));
-    var_dump($jsonRes);
+          $jsonRes=$this->twObj->post("statuses/update", array("status" => $screen_name." ".$mes, "in_reply_to_statu_id"=>$rep_id));
+      }else{
+          $jsonRes=$this->twObj->post("statuses/update", array("status" => $mes));
+      }
+      var_dump($jsonRes);
   }
 
   function getSearchArray()
